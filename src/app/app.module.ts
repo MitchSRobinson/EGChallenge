@@ -12,13 +12,15 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
 import { HomeComponent } from './components/home/home.component';
 import { FilterPipe } from './utils/filter.pipe';
+import { InstrumentComponent } from './components/instrument/instrument.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainNavComponent,
     HomeComponent,
-    FilterPipe
+    FilterPipe,
+    InstrumentComponent
   ],
   imports: [
     HttpClientModule,
