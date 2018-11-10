@@ -11,8 +11,11 @@ export class MockComponent implements OnInit {
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.dataService.getInstrument().subscribe(data => {
+    this.dataService.getInstruments().subscribe(data => {
       console.log(data);
     });
+    this.dataService.getInstrument(3).subscribe(data => {
+      console.log(data);
+    })
   }
 }
