@@ -8,14 +8,13 @@ import { DataService } from 'src/app/services/api-util.service';
 })
 export class HomeComponent implements OnInit {
 
-  public instruments = [];
+  public instruments;
 
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
     this.dataService.getInstruments().subscribe(instruments => {
-      this.instruments = [instruments];
+      this.instruments = instruments;
     });
   }
-
 }
