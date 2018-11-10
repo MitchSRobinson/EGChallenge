@@ -16,6 +16,6 @@ export class MockComponent implements OnInit {
     });
     this.dataService.getInstrument(3).subscribe(data => {
       console.log(data);
-    })
+    });
   }
 }

@@ -6,11 +6,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MockComponent } from './components/mock/mock.component';
 import { DataService } from './services/api-util.service';
+import { InstrumentComponent } from './components/instrument/instrument.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MockComponent
+    MockComponent,
+    InstrumentComponent
   ],
   imports: [
     HttpClientModule,
