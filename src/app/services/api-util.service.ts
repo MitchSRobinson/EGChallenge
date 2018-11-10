@@ -1,7 +1,6 @@
-import { HttpClient, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, config } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Injectable()
 export class DataService {
@@ -9,7 +8,11 @@ export class DataService {
   constructor(private httpClient: HttpClient) {
   }
 
-  public getInstrument<T>(): Observable<T> {
-    return this.httpClient.get<T>("http://egchallenge.tech/marketdata/instrument/2")
+  public getInstruments() {
+    return this.httpClient.get("http://egchallenge.tech/instruments");
+  }
+
+  public getInstrument(id: Number) {
+    return this.httpClient.get("http://egchallenge.tech/marketdata/instrument/" + id);
   }
 }
