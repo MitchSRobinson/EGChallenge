@@ -1,4 +1,4 @@
-<input [(ngModel)]="searchText" placeholder="Search instruments">
+<input [(ngModel)]="searchText" placeholder="Search by company name, symbol or industry...">
 
 <a *ngFor="let instrument of instruments | filter: searchText" href="/instrument/{{instrument.id}}">
   <div class="instrument-container">
