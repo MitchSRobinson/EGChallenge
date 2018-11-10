@@ -14,5 +14,8 @@ export class MockComponent implements OnInit {
     this.dataService.getInstruments().subscribe(data => {
       console.log(data);
     });
+    this.dataService.getInstrument(3).subscribe(data => {
+      console.log(data);
+    })
   }
 }
