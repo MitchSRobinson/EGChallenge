@@ -4,13 +4,14 @@
 
 <mat-form-field>
   <mat-select placeholder="Select Epoch Window" [(value)]="selectedEpoch">
+    <mat-option [value]="null">Custom</mat-option>
     <mat-option [value]="60">60 Epoch</mat-option>
     <mat-option [value]="30">30 Epoch</mat-option>
     <mat-option [value]="10">10 Epoch</mat-option>
   </mat-select>
 </mat-form-field>
 
-<nouislider [connect]="true" [min]="rangeMin" [max]="rangeMax" [step]="1" [(ngModel)]="someRange" (ngModelChange)="onChange($event)"></nouislider>
+<nouislider [disabled]="selectedEpoch !== null" [connect]="true" [min]="rangeMin" [max]="rangeMax" [step]="1" [(ngModel)]="someRange" (ngModelChange)="onChange($event)"></nouislider>
 
 <input type="number" [(ngModel)]="emaRange" name="ema-range">
 <button mat-raised-button (click)="setEmaRange()">Update Range</button>

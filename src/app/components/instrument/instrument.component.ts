@@ -41,12 +41,9 @@ export class InstrumentComponent implements OnInit {
   set selectedEpoch(epoch: number) {
     this._epochWindow = epoch;
 
-    if (typeof epoch !==  'undefined') {
-      this.custom_range = false;
+    if (epoch !== null) {
       this.someRange = [this.price.length - epoch, this.price.length];
       this.updateGraph(this.someRange[0], this.someRange[1]);
-    } else {
-      this.custom_range = true;
     }
   }
 
@@ -66,7 +63,7 @@ export class InstrumentComponent implements OnInit {
 
     this.route.params.subscribe(param => {
       this.id = param['id'];
-      this.selectedEpoch = undefined;
+      this.selectedEpoch = null;
 
       timer(0, 30*1000)
       .pipe(
@@ -95,7 +92,7 @@ export class InstrumentComponent implements OnInit {
           this.updateGraph(0, this.price.length);  
           this.someRange = [0, this.price.length];
         } else {
-          if (typeof this.selectedEpoch === 'undefined') {
+          if (this.selectedEpoch === null) {
             this.updateGraph(this.someRange[0], this.someRange[1]);
           } else {
             this.updateGraph(this.price.length - this.selectedEpoch, this.price.length);
@@ -186,12 +183,8 @@ export class InstrumentComponent implements OnInit {
   onChange(event: Event) {
     console.log(event);
     // Refresh selected epoch when range changed
-    this.updateGraph(event[0], event[1]);
-    if (this.custom_range) {
-      console.log('Set undefined');
-      this.selectedEpoch = undefined;
-    } else {
-      this.custom_range = false;
+    if (this.selectedEpoch === null) {
+      this.updateGraph(event[0], event[1]);
     }
   }
 
