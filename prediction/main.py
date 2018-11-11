@@ -87,7 +87,7 @@ def new_get_dataset():
       df.insert(loc=i, column=column, value=[])
       i += 1
 
-    df, epoch = iterative_update(df, 3970)
+    df, epoch = iterative_update(df, 3491)
 
     return df, epoch
 
@@ -123,19 +123,16 @@ def is_current_epoch(i):
 
 if __name__ == "__main__":
     print_with_timestamp("Generating initial model")
-    # df = pd.read_csv("data.csv")
-    df, epoch = new_get_dataset()
-    # print(list(df.columns.values))
-    # print(df)
-    # df = iterative_update(df, -1)
-    # epoch = get_current_epoch()
+    df = pd.read_csv("prediction/data-full.csv")
+    epoch = df.shape[1]
     while True:
       print_with_timestamp("Looping")
       if is_current_epoch(epoch):
-        time.sleep(500)
+        time.sleep(5)
       else:
         print_with_timestamp("New epoch detected, current " + str(epoch) + " detected " + str(get_current_epoch()))
         df, epoch = iterative_update(df, epoch)
-        df.to_csv("data"+str(datetime.datetime.now()))
+        df.to_csv("prediction/data-full.csv")
         # result = predictmodel.predict(convert_data_for_predict(df))
         print()
+    # submit(4000, [{'instrument_id': 3, 'predicted_return': 0.001}, {'instrument_id': 4, 'predicted_return': 0.001}])
