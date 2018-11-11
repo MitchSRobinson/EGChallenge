@@ -9,3 +9,5 @@
     <mat-option [value]="10">10 Epoch</mat-option>
   </mat-select>
 </mat-form-field>
+
+<nouislider [connect]="true" [min]="rangeMin" [max]="rangeMax" [step]="1" [(ngModel)]="someRange" (ngModelChange)="onChange($event)"></nouislider>
