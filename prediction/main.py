@@ -4,6 +4,8 @@ import json
 import datetime
 import time
 import predictmodel
+from numpy import array
+import numpy as np
 
 def print_with_timestamp(message):
   print(str(datetime.datetime.now()) + ": " + message)
@@ -87,7 +89,7 @@ def new_get_dataset():
       df.insert(loc=i, column=column, value=[])
       i += 1
 
-    df, epoch = iterative_update(df, 3491)
+    df, epoch = iterative_update(df, 4060)
 
     return df, epoch
 
@@ -121,6 +123,15 @@ def submit(epoch, data):
 def is_current_epoch(i):
   return i == get_current_epoch()
 
+def normalize_windows(window_data):
+	"""Normalize data"""
+
+	normalized_data = []
+	for window in window_data:
+		normalized_window = [((float(p) / float(window[0])) - 1) for p in window]
+		normalized_data.append(normalized_window)
+	return normalized_data
+
 if __name__ == "__main__":
     print_with_timestamp("Generating initial model")
     df = pd.read_csv("prediction/data-full.csv")
@@ -128,10 +139,25 @@ if __name__ == "__main__":
     while True:
       print_with_timestamp("Looping")
       if is_current_epoch(epoch):
-        time.sleep(5)
+        time.sleep(1)
       else:
         print_with_timestamp("New epoch detected, current " + str(epoch) + " detected " + str(get_current_epoch()))
         df, epoch = iterative_update(df, epoch)
+        df.to_csv("data"+str(datetime.datetime.now()).strip().replace(".","").replace(":","").replace("-","") + ".csv")
+        data = []
+        for column in df:
+          dict = {}
+          current = df[column]
+          print(current.name)
+          dict["instrument_id"] = current.name
+          # Last window, for next time stamp prediction
+          # last_raw = [current[-6:]]
+          last = [current[-6:]]
+          # last = normalize_windows(last_raw)
+          last = np.array(last)
+          last = np.reshape(last, (last.shape[0], last.shape[1], 1))
+          dict["predicted_return"] = predictmodel.predict(last)
+        print(data)
         df.to_csv("prediction/data-full.csv")
         # result = predictmodel.predict(convert_data_for_predict(df))
         print()
