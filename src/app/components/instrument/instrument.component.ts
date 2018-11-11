@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { Chart, ChartData, Point } from 'chart.js';
 import { DataService } from 'src/app/services/api-util.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-instrument',
@@ -17,9 +18,12 @@ export class InstrumentComponent implements OnInit {
   chartData: [];
   chartEpoch: [];
   
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private route: ActivatedRoute) { 
+    this.route.params.subscribe( params => this.id = params.id );
+  }
 
   ngOnInit() {
+    console.log(this.id)
     this.dataService.getInstrument(this.id).subscribe(result => {
       // get all price points
       let data = result as any[];
