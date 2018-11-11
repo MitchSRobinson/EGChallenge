@@ -1,0 +1,4 @@
+pandas==0.23.4
+keras==2.2.4
+requests==2.20.1
+tensorflow==1.12.0
