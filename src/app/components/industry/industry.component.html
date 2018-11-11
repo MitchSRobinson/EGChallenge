@@ -1,3 +1,14 @@
-<p>
-  industry works!
-</p>
+<input [(ngModel)]="searchText" placeholder="Search by industry...">
+
+<a *ngFor="let industry of industries_array | filter: searchText">
+  <mat-card [ngClass]="(industry.average_change >= 0) ? 'instrument-container green':'instrument-container red'">
+    <mat-card-header>
+      <mat-card-title>{{industry.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      Average Price: £{{industry.average_price}}
+      <br>
+      Average Change: {{industry.average_change * 100}}
+    </mat-card-content>
+  </mat-card>
+</a>
