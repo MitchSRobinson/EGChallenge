@@ -17,6 +17,13 @@ input {
 .instrument-container {
     margin: 10px;
     padding: 10px;
-    background: #ADD8E6;
     color: black;
+}
+
+.green {
+    background: green;
+}
+
+.red {
+    background: red;
 }

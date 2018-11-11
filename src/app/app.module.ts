@@ -16,6 +16,7 @@ import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, Mat
 import { HomeComponent } from './components/home/home.component';
 import { FilterPipe } from './utils/filter.pipe';
 import { InstrumentComponent } from './components/instrument/instrument.component';
+import { IndustryComponent } from './components/industry/industry.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { InstrumentComponent } from './components/instrument/instrument.componen
     MainNavComponent,
     HomeComponent,
     FilterPipe,
-    InstrumentComponent
+    InstrumentComponent,
+    IndustryComponent
   ],
   imports: [
     HttpClientModule,

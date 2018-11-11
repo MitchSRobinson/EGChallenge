@@ -8,9 +8,14 @@ export class FilterPipe implements PipeTransform {
         if(!searchText) return items;
         searchText = searchText.toLowerCase();
         return items.filter( it => {
-            return it.company_name.toLowerCase().includes(searchText) 
-            || it.symbol.toLowerCase().includes(searchText)
-            || it.industry.toLowerCase().includes(searchText);
+            for (let key in it) {
+                let value = String(it[key])
+                if (typeof value != 'undefined') {
+                    if (value.toLowerCase().includes(searchText)) {
+                        return true;
+                    }
+                }
+            }
         });
     }
 }
