@@ -2,6 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { Chart, ChartData, Point } from 'chart.js';
 import { DataService } from 'src/app/services/api-util.service';
+import { ActivatedRoute } from '@angular/router';
+import { timer, Observable, Subject } from 'rxjs';
+import { switchMap, takeUntil, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-instrument',
@@ -10,35 +13,71 @@ import { DataService } from 'src/app/services/api-util.service';
 })
 export class InstrumentComponent implements OnInit {
 
-  @Input() id: number;
-
   chart: Chart;
+
+  id: number;
 
   chartData: [];
   chartEpoch: [];
+
+  price: any[];
+  epoch: any[];
+
+  _epochWindow = 60;
+
+  get selectedEpoch(): number {
+    return this._epochWindow;
+  }
+
+  set selectedEpoch(epoch: number) {
+    this._epochWindow = epoch;
+    console.log(epoch);
+    let window = this.epochWindow(this.price, this.epoch, epoch);
+    this.chart.data.datasets[0].data = window[0];
+    this.chart.config.data.labels = window[1];
+    console.log(window[0]);
+    this.chart.update();
+  }
   
-  constructor(private dataService: DataService) { }
+  constructor(
+      private dataService: DataService,
+      private route: ActivatedRoute
+    ) { }
 
   ngOnInit() {
-    this.dataService.getInstrument(this.id).subscribe(result => {
-      // get all price points
-      let data = result as any[];
-      let price = [];
-      let epoch = [];
-      for (let i = 0; i < data.length; i++) {
-        price.push(data[i].prev_epoch_price); 
-        epoch.push(data[i].epoch);
-      }
-      // 10 epoch window
-      // 30 epoch window
 
-      // 60 epoch window
-      let window60 = this.epochWindow(price, epoch, 60);
-      let window30 = this.epochWindow(price, epoch, 30);
-      let window10 = this.epochWindow(price, epoch, 10);
+    this.price = [];
+    this.epoch = [];
+    this.chartData = [];
+    this.chartEpoch = [];
 
-      this.createChart(this.chartData, this.chartEpoch);
-    })
+    this.route.params.subscribe(param => {
+      this.id = param['id'];
+
+      timer(0, 20*1000)
+      .pipe(
+        // This kills the request if the user closes the component 
+        // takeUntil(this.killTrigger),
+        // switchMap cancels the last request, if no response have been received since last tick
+        switchMap(() => this.dataService.getInstrument(this.id)),
+        // catchError handles http throws 
+        catchError(error => console.log(error))
+      ).subscribe(result => {
+        // get all price points
+        console.log('Making Call');
+        let data = result as any[];
+        this.price = [];
+        this.epoch = [];
+        for (let i = 0; i < data.length; i++) {
+          this.price.push(data[i].prev_epoch_price); 
+          this.epoch.push(data[i].epoch);
+        }
+        if (!this.chart) {
+          this.createChart(this.chartData, this.chartEpoch);
+        }
+        this.selectedEpoch = this.selectedEpoch;
+      });  
+    });
   }
   
   createChart(price: number[], epoch: number[]) {
