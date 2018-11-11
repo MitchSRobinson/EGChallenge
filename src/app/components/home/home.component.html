@@ -1,14 +1,15 @@
 <input [(ngModel)]="searchText" placeholder="Search by company name, symbol or industry...">
 
 <a *ngFor="let instrument of instruments | filter: searchText; let i = index" href="/instrument/{{instrument.id}}">
-  <mat-card class="instrument-container">
+  <mat-card [ngClass]="(latest[i].epoch_return >= 0) ? 'instrument-container green':'instrument-container red'">
     <mat-card-header>
       <mat-card-title>{{instrument.company_name}} - {{instrument.symbol}}</mat-card-title>
+      <mat-card-subtitle>{{instrument.industry}}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      {{instrument.industry}}
+      Current Price: £{{latest[i].price}}
       <br>
-      {{latest[i].epoch_return * 100 }} %
+      Percentage Change: {{latest[i].epoch_return * 100 }} %
     </mat-card-content>
   </mat-card>
 </a>
