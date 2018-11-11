@@ -34,7 +34,8 @@ import { InstrumentComponent } from './components/instrument/instrument.componen
     MatListModule,
     BrowserAnimationsModule,
     FormsModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule
   ],
   providers: [
     DataService
