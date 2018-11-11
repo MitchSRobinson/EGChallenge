@@ -11,3 +11,6 @@
 </mat-form-field>
 
 <nouislider [connect]="true" [min]="rangeMin" [max]="rangeMax" [step]="1" [(ngModel)]="someRange" (ngModelChange)="onChange($event)"></nouislider>
+
+<input type="number" [(ngModel)]="emaRange" name="ema-range">
+<button mat-raised-button (click)="setEmaRange()">Update Range</button>

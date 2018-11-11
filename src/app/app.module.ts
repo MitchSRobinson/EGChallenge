@@ -38,7 +38,7 @@ import { InstrumentComponent } from './components/instrument/instrument.componen
     BrowserAnimationsModule,
     FormsModule,
     MatSelectModule,
-    NouisliderModule
+    NouisliderModule,
     MatCardModule,
     MatIconModule,
     MatSelectModule
