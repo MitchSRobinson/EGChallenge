@@ -12,7 +12,7 @@ import { AppComponent } from './app.component';
 import { DataService } from './services/api-util.service';
 import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatCardModule } from '@angular/material';
 import { HomeComponent } from './components/home/home.component';
 import { FilterPipe } from './utils/filter.pipe';
 import { InstrumentComponent } from './components/instrument/instrument.component';
@@ -39,6 +39,9 @@ import { InstrumentComponent } from './components/instrument/instrument.componen
     FormsModule,
     MatSelectModule,
     NouisliderModule
+    MatCardModule,
+    MatIconModule,
+    MatSelectModule
   ],
   providers: [
     DataService

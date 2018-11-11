@@ -1,9 +1,14 @@
 <input [(ngModel)]="searchText" placeholder="Search by company name, symbol or industry...">
 
-<a *ngFor="let instrument of instruments | filter: searchText" href="/instrument/{{instrument.id}}">
-  <div class="instrument-container">
-    Name: {{instrument.company_name}} - {{instrument.symbol}}
-    <br>
-    Industry: {{instrument.industry}}
-  </div>
+<a *ngFor="let instrument of instruments | filter: searchText; let i = index" href="/instrument/{{instrument.id}}">
+  <mat-card class="instrument-container">
+    <mat-card-header>
+      <mat-card-title>{{instrument.company_name}} - {{instrument.symbol}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      {{instrument.industry}}
+      <br>
+      {{latest[i].epoch_return * 100 }} %
+    </mat-card-content>
+  </mat-card>
 </a>

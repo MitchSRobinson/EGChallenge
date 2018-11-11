@@ -161,4 +161,3 @@ if __name__ == "__main__":
         df.to_csv("prediction/data-full.csv")
         # result = predictmodel.predict(convert_data_for_predict(df))
         print()
-    # submit(4000, [{'instrument_id': 3, 'predicted_return': 0.001}, {'instrument_id': 4, 'predicted_return': 0.001}])

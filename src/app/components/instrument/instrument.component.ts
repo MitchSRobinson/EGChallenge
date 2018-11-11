@@ -63,8 +63,8 @@ export class InstrumentComponent implements OnInit {
         // switchMap cancels the last request, if no response have been received since last tick
         switchMap(() => this.dataService.getInstrument(this.id)),
         // catchError handles http throws 
-        catchError(error => error)
-        ).subscribe(result => {
+        // catchError(error => console.log(error))
+      ).subscribe(result => {
         // get all price points
         console.log('Making Call');
         let data = result as any[];
