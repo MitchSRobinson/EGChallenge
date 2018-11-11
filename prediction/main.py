@@ -99,6 +99,24 @@ def df_to_list_series(df):
 
   return data
 
+def submit(epoch, data):
+  url = "http://egchallenge.tech/predict"
+  
+  payload = "{\n\t\"team_name\": \"Spice Girls\",\n\t\"password\": \"spice_girls\"\n}\n"
+  headers = {
+      'Content-Type': "application/json",
+      'Cache-Control': "no-cache",
+      'Postman-Token': "c0cbea42-3c0c-4099-191e-9986c7748208"
+  }
+
+  data = {
+    'token': login(),
+    'epoch': epoch + 1,
+    'predictions': data
+  }
+
+  requests.post(url, json=json.dumps(data), headers=headers)
+
 
 def is_current_epoch(i):
   return i == get_current_epoch()
