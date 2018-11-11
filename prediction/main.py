@@ -87,24 +87,34 @@ def new_get_dataset():
       df.insert(loc=i, column=column, value=[])
       i += 1
 
-    df, epoch = iterative_update(df, 1)
+    df, epoch = iterative_update(df, 3970)
 
     return df, epoch
+
+def df_to_list_series(df):
+  cols = df.columns
+  data = {}
+  for col in df.columns:
+    data[col] = df[col].tolist()
+
+  return data
+
 
 def is_current_epoch(i):
   return i == get_current_epoch()
 
 if __name__ == "__main__":
     print_with_timestamp("Generating initial model")
-    df = pd.read_csv("data.csv")
-    print(list(df.columns.values))
-    print(df)
-    df = iterative_update(df, -1)
-    epoch = get_current_epoch()
+    # df = pd.read_csv("data.csv")
+    df, epoch = new_get_dataset()
+    # print(list(df.columns.values))
+    # print(df)
+    # df = iterative_update(df, -1)
+    # epoch = get_current_epoch()
     while True:
       print_with_timestamp("Looping")
       if is_current_epoch(epoch):
-        time.sleep(5)
+        time.sleep(500)
       else:
         print_with_timestamp("New epoch detected, current " + str(epoch) + " detected " + str(get_current_epoch()))
         df, epoch = iterative_update(df, epoch)
