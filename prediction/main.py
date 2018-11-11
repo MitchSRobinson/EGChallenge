@@ -134,12 +134,8 @@ def normalize_windows(window_data):
 
 if __name__ == "__main__":
     print_with_timestamp("Generating initial model")
-    # df = pd.read_csv("data.csv")
-    df, epoch = new_get_dataset()
-    # print(list(df.columns.values))
-    # print(df)
-    # df = iterative_update(df, -1)
-    # epoch = get_current_epoch()
+    df = pd.read_csv("prediction/data-full.csv")
+    epoch = df.shape[1]
     while True:
       print_with_timestamp("Looping")
       if is_current_epoch(epoch):
@@ -162,5 +158,7 @@ if __name__ == "__main__":
           last = np.reshape(last, (last.shape[0], last.shape[1], 1))
           dict["predicted_return"] = predictmodel.predict(last)
         print(data)
+        df.to_csv("prediction/data-full.csv")
         # result = predictmodel.predict(convert_data_for_predict(df))
         print()
+    # submit(4000, [{'instrument_id': 3, 'predicted_return': 0.001}, {'instrument_id': 4, 'predicted_return': 0.001}])
