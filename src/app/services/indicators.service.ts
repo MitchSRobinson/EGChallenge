@@ -23,11 +23,16 @@ export class IndicatorsService {
   }
 
   getExponentialMovingAverage(mArray, mRange) {
-    var k = 2 / (mRange + 1);
+    var k;
     // first item is just the same as the first item in the input
     let emaArray = [mArray[0]];
     // for the rest of the items, they are computed with the previous one
     for (var i = 1; i < mArray.length; i++) {
+      if (i < mRange) {
+        k = 2 / (i + 1);
+      } else {
+        k = 2 / (mRange + 1)
+      }
       emaArray.push(mArray[i] * k + emaArray[i - 1] * (1 - k));
     }
     console.log(emaArray);
