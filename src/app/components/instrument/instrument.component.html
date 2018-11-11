@@ -1,7 +1,11 @@
-<p>
-  instrument works!
-</p>
-
 <div class="chart">
   <canvas id="chart-canvas">{{ chart }}</canvas>
 </div>
+
+<mat-form-field>
+  <mat-select placeholder="Select Epoch Window" [(value)]="selectedEpoch">
+    <mat-option [value]="60">60 Epoch</mat-option>
+    <mat-option [value]="30">30 Epoch</mat-option>
+    <mat-option [value]="10">10 Epoch</mat-option>
+  </mat-select>
+</mat-form-field>
