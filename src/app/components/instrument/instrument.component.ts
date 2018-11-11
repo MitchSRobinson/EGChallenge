@@ -23,6 +23,10 @@ export class InstrumentComponent implements OnInit {
   price: any[];
   epoch: any[];
 
+  someRange = [1,5];
+  rangeMin = 0;
+  rangeMax = 60;
+
   _epochWindow = 60;
 
   get selectedEpoch(): number {
@@ -31,12 +35,10 @@ export class InstrumentComponent implements OnInit {
 
   set selectedEpoch(epoch: number) {
     this._epochWindow = epoch;
-    console.log(epoch);
-    let window = this.epochWindow(this.price, this.epoch, epoch);
-    this.chart.data.datasets[0].data = window[0];
-    this.chart.config.data.labels = window[1];
-    console.log(window[0]);
-    this.chart.update();
+    if (typeof epoch !==  undefined) {
+      this.someRange = [this.price.length - epoch, this.price.length];
+      this.updateGraph(this.someRange[0], this.someRange[1]);
+    }
   }
   
   constructor(
@@ -61,8 +63,8 @@ export class InstrumentComponent implements OnInit {
         // switchMap cancels the last request, if no response have been received since last tick
         switchMap(() => this.dataService.getInstrument(this.id)),
         // catchError handles http throws 
-        catchError(error => console.log(error))
-      ).subscribe(result => {
+        catchError(error => error)
+        ).subscribe(result => {
         // get all price points
         console.log('Making Call');
         let data = result as any[];
@@ -72,10 +74,14 @@ export class InstrumentComponent implements OnInit {
           this.price.push(data[i].prev_epoch_price); 
           this.epoch.push(data[i].epoch);
         }
+        this.rangeMax = this.price.length;
         if (!this.chart) {
           this.createChart(this.chartData, this.chartEpoch);
+          this.updateGraph(0, this.price.length);  
+          this.someRange = [0, this.price.length];
+        } else {
+          this.updateGraph(this.price.length - this.selectedEpoch, this.price.length);
         }
-        this.selectedEpoch = this.selectedEpoch;
       });  
     });
   }
@@ -95,18 +101,11 @@ export class InstrumentComponent implements OnInit {
         ]
       },
       options: {
-        // When the graph is clicked return the active points pressed - if any
-        // Reset all points on the graph to be white
-        // Get the index of the clicked point and change its border color to red
-        // onClick: function(evt, activeElements) {
-        //   if (activeElements.length != 0) {
-        //     var elementIndex = activeElements["0"]._index;
-        //     for (let index = 0; index < 4; index++) {
-        //       this.data.datasets[0].pointBorderColor[index] = '#B8B8B8';   
-        //     }
-        //     this.data.datasets[0].pointBorderColor[elementIndex] = 'red';
-        //     this.update();
-        //   }
+        elements: {
+          point:{
+              radius: 0
+          }
+      }
         },
         tooltips: {
 					mode: 'index',
@@ -143,5 +142,25 @@ export class InstrumentComponent implements OnInit {
     return [newPrice, newEpoch];
   }
 
+  epochRange(start, end) {
+    let price = this.price.slice(start, end);
+    let epoch = this.epoch.slice(start, end);
+    console.log(price);
+    return [price, epoch];
+  }
+
+  onChange(event: Event) {
+    console.log(event);
+    // Refresh selected epoch when range changed
+    this.updateGraph(event[0], event[1]);
+    // this.selectedEpoch = undefined;
+  }
+
+  updateGraph(start, end) {
+    let window = this.epochRange(start, end);
+    this.chart.data.datasets[0].data = window[0];
+    this.chart.config.data.labels = window[1];
+    this.chart.update();
+  }
 
 }
